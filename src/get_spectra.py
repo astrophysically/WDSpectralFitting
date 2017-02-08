@@ -1,3 +1,4 @@
+import os.path
 import numpy as np
 
 import astropy
@@ -25,13 +26,16 @@ print "Downloading " + str(len(PMF)) + " spectra now..."
 
 for i in np.arange(len(PMF)):
 
+    filename = '../data/spectra-'+str(PMF[i])+'.fits'
+    if os.path.exists(filename): continue
+
     plate = int(str(PMF[i])[0:4])
     mjd = int(str(PMF[i])[5:10])
     fiber = int(str(PMF[i])[11:15])
 
+
     spec = SDSS.get_spectra(plate=plate, mjd=mjd, fiberID=fiber)
 
-    filename = '../data/spectra-'+str(PMF[i])+'.fits'
     spec[0].writeto(filename)
 
 print "...finished downloading spectra."
