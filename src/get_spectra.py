@@ -33,9 +33,12 @@ for i in np.arange(len(PMF)):
     mjd = int(str(PMF[i])[5:10])
     fiber = int(str(PMF[i])[11:15])
 
+    try:
+        spec = SDSS.get_spectra(plate=plate, mjd=mjd, fiberID=fiber)
+        spec[0].writeto(filename)
+    except:
+        print "Could not download spectra:", plate, mjd, fiber
+        pass
 
-    spec = SDSS.get_spectra(plate=plate, mjd=mjd, fiberID=fiber)
-
-    spec[0].writeto(filename)
 
 print "...finished downloading spectra."
